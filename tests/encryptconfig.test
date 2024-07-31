@@ -1,0 +1,49 @@
+# Copyright Jerily LTD. All Rights Reserved.
+# SPDX-FileCopyrightText: 2024 Neofytos Dimitriou (neo@jerily.cy)
+# SPDX-License-Identifier: MIT.
+
+package require tconfig::encrypt
+
+test tconfigEncryptConfig-1.1 "Encrypt config for dev env" -setup {
+    aws_seed
+    set conf_file [makeFile $::default_config_file config]
+} -body {
+    ::tconfig::encrypt_config [dict create \
+        environment dev \
+        aws_kms_key $::kms_key \
+        config_file $conf_file \
+        aws_profile localstack]
+    viewFile $conf_file
+} -cleanup {
+    catch { removeFile $conf_file }
+    unset -nocomplain file
+} -match glob -result {\[db\]
+somekey = untouched
+hostname = dev-hostname
+enc:password = *
+\[email\]
+enc:password = *
+\[tconfig\]
+tink_keyset = *}
+
+test tconfigEncryptConfig-1.2 "Encrypt config for prod env" -setup {
+    aws_seed
+    set conf_file [makeFile $::default_config_file config]
+} -body {
+    ::tconfig::encrypt_config [dict create \
+        environment prod \
+        aws_kms_key $::kms_key \
+        config_file $conf_file \
+        aws_profile localstack]
+    viewFile $conf_file
+} -cleanup {
+    catch { removeFile $conf_file }
+    unset -nocomplain file
+} -match glob -result {\[db\]
+somekey = untouched
+hostname = prod-hostname
+enc:password = *
+\[email\]
+enc:password = *
+\[tconfig\]
+tink_keyset = *}

@@ -1,0 +1,64 @@
+# Copyright Jerily LTD. All Rights Reserved.
+# SPDX-FileCopyrightText: 2024 Neofytos Dimitriou (neo@jerily.cy)
+# SPDX-License-Identifier: MIT.
+
+package require tconfig::encrypt
+package require tconfig::decrypt
+
+test tconfigLoadConfig-1.1 "Load config for dev env" -setup {
+    aws_seed
+    set conf_file [makeFile $::default_config_file config]
+} -body {
+
+    ::tconfig::encrypt_config [dict create \
+        environment dev \
+        aws_kms_key $::kms_key \
+        config_file $conf_file \
+        aws_profile localstack]
+
+    ::tconfig::load_config $conf_file localstack
+
+    set result [list]
+    dict for { section keys } [::tconfig::get_config] {
+        dict for { key val } $keys {
+            lappend result "!$section!$key!$val!"
+        }
+    }
+
+    join $result \n
+} -cleanup {
+    catch { removeFile $conf_file }
+    unset -nocomplain file result section keys key val
+} -match glob -result {!db!somekey!untouched!
+!db!hostname!dev-hostname!
+!db!password!dev-password!
+!email!password!dev-email-password!}
+
+test tconfigLoadConfig-1.2 "Load config for prod env" -setup {
+    aws_seed
+    set conf_file [makeFile $::default_config_file config]
+} -body {
+
+    ::tconfig::encrypt_config [dict create \
+        environment prod \
+        aws_kms_key $::kms_key \
+        config_file $conf_file \
+        aws_profile localstack]
+
+    ::tconfig::load_config $conf_file localstack
+
+    set result [list]
+    dict for { section keys } [::tconfig::get_config] {
+        dict for { key val } $keys {
+            lappend result "!$section!$key!$val!"
+        }
+    }
+
+    join $result \n
+} -cleanup {
+    catch { removeFile $conf_file }
+    unset -nocomplain file result section keys key val
+} -match glob -result {!db!somekey!untouched!
+!db!hostname!prod-hostname!
+!db!password!prod-password!
+!email!password!prod-email-password!}
