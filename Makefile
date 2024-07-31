@@ -5,6 +5,7 @@
 PREFIX  ?= /usr/local
 VERSION := $(shell cat pkgIndex.tcl | grep -F 'package ifneeded tconfig ' | awk '{print $$4}')
 INSTALL_DIR = $(PREFIX)/lib/tconfig$(VERSION)
+INSTALL_BIN_DIR = $(PREFIX)/bin
 WORKING_DIR_ABSOLUTE = $(shell pwd)
 
 override TESTFLAGS += -verbose "body error start"
@@ -20,12 +21,11 @@ install:
 	mkdir -vp "$(INSTALL_DIR)"
 	cp -vf LICENSE pkgIndex.tcl "$(INSTALL_DIR)"
 	mkdir -vp "$(INSTALL_DIR)"/tcl
-	cp -vfr tcl/* "$(INSTALL_DIR)"/tcl
+	cp -vf tcl/tconfig.tcl "$(INSTALL_DIR)"/tcl
+	mkdir -vp "$(INSTALL_BIN_DIR)"
+	cp -vf tcl/encrypt-config.tcl "$(INSTALL_BIN_DIR)"
 
 .PHONY: test
 test:
 	$(TCLSH_EXE) tests/all.tcl $(TESTFLAGS)
 
-.PHONY: example
-example:
-	$(TCLSH_EXE) examples/example1.tcl

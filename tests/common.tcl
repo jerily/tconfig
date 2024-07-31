@@ -3,19 +3,15 @@
 # SPDX-License-Identifier: MIT.
 
 proc aws { args } {
-    lappend args "--endpoint-url=http://localhost:4566"
-    return [exec aws {*}$args]
+    return [exec aws --profile localstack {*}$args]
 }
 
 proc set_ssm_params { params } {
-    foreach { k v } $params {
-        set ::env(AWS_ACCESS_KEY_ID) "test"
-        set ::env(AWS_SECRET_ACCESS_KEY) "test"
-        set ::env(AWS_DEFAULT_REGION) "eu-west-1"
-        set outcome [aws ssm put-parameter --name $k --value $v --type String --overwrite --output text]
+    foreach { key value type } $params {
+        set outcome [aws ssm put-parameter --name $key --value $value --type $type --overwrite --output text]
         if { ![string is integer -strict $outcome] } {
-            return -code error "something wrong when setting the parameter \"$k\" to\
-                the value \"$v\": $outcome"
+            return -code error "something wrong when setting the parameter \"$key\" to\
+                the value \"$value\": $outcome"
         }
     }
 }
@@ -28,16 +24,23 @@ proc unindent { text } {
 proc aws_seed { } {
 
     if { [info exists ::aws_seed] } return
-    set ::aws_seed 1
+
+    # Make sure the aws cli can use profile localstack
+    if { [catch { aws configure get endpoint_url 2>@1 } err] } {
+        aws configure set endpoint_url "http://localhost:4566"
+        aws configure set region "eu-west-1"
+        aws configure set aws_access_key_id "test"
+        aws configure set aws_secret_access_key "test"
+    }
 
     # Set sample parameters in localstack
     set_ssm_params {
-        /dev/db/password "dev-password"
-        /dev/db/hostname "dev-hostname"
-        /dev/email/password "dev-email-password"
-        /prod/db/password "prod-password"
-        /prod/db/hostname "prod-hostname"
-        /prod/email/password "prod-email-password"
+        /dev/db/password     "dev-password"        "SecureString"
+        /dev/db/hostname     "dev-hostname"        "String"
+        /dev/email/password  "dev-email-password"  "SecureString"
+        /prod/db/password    "prod-password"       "SecureString"
+        /prod/db/hostname    "prod-hostname"       "String"
+        /prod/email/password "prod-email-password" "SecureString"
     }
 
     # Create a KMS key
@@ -50,17 +53,19 @@ proc aws_seed { } {
         # ^ empty line
         [db]
         somekey = untoched
-        encrypt:password = foo
-        plain:hostname = baz
+        password = foo
+        hostname = baz
 
         [email]
-        encrypt:password = qux
+        password = qux
     }]
+
+    set ::aws_seed 1
 
 }
 
 proc tcltest::cleanupTestsHook { } {
     if { ![info exists ::aws_seed] } return
     # Cleanup
-    aws kms schedule-key-deletion --key-id $kms_key --pending-window-in-days 7
+    aws kms schedule-key-deletion --key-id $::kms_key --pending-window-in-days 7
 }

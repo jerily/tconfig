@@ -16,6 +16,7 @@ set ::tcltest::testSingleFile false
 set ::tcltest::testsDirectory [file dir [info script]]
 
 source [file join [tcltest::testsDirectory] common.tcl]
+set ::env(AWS_ENDPOINT_URL) "http://localhost:4566"
 
 # We need to ensure that the testsDirectory is absolute
 if {[catch {::tcltest::normalizePath ::tcltest::testsDirectory}]} {
