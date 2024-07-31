@@ -37,7 +37,7 @@ make install
     - *ini_file* - encrypted configuration file for processing
     - *aws_profile* - name of the AWS profile that will be used to access AWS services
 
-* **::tconfig::get**
+* **::tconfig::get_config**
     - returns the values loaded by **::tconfig::load_config** procedure in Tcl dict format
 
 ## Example
@@ -46,7 +46,7 @@ Prepare a configuration file in ini-format. For example:
 
 ```
 [db]
-somekey = untoched
+somekey = untouched
 password = foo
 hostname = baz
 
@@ -96,5 +96,5 @@ package require tconfig
 
 ::tconfig::load_config "/path/to/config.ini"
 
-puts "Loaded configuration values: [::tconfig::get]"
+puts "Loaded configuration values: [::tconfig::get_config]"
 ```

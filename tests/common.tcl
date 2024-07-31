@@ -52,7 +52,7 @@ proc aws_seed { } {
 
         # ^ empty line
         [db]
-        somekey = untoched
+        somekey = untouched
         password = foo
         hostname = baz
 

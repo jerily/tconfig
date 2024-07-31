@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Neofytos Dimitriou (neo@jerily.cy)
 # SPDX-License-Identifier: MIT.
 
-package require tconfig
+package require tconfig::encrypt
 
 proc convert_argv2options { argv } {
 
@@ -16,7 +16,25 @@ proc convert_argv2options { argv } {
     # to dict:
     #     aws_profile XXX environment YYY
     foreach { name value } [lrange $argv 0 end-1] {
-        set name [string range $name 1 end]
+        switch -glob -- $name {
+            -env* {
+                set name "environment"
+            }
+            -aws_kms_key {
+                set name "aws_kms_key"
+            }
+            -aws_profile {
+                set name "aws_profile"
+            }
+            -app* {
+                set name "application"
+            }
+            default {
+                puts stderr "Error: unknown option \"$name\": should be -environment\
+                    -aws_kms_key, -aws_profile or -application"
+                exit 1
+            }
+        }
         dict set result $name $value
     }
 

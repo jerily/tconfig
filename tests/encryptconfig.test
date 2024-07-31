@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Neofytos Dimitriou (neo@jerily.cy)
 # SPDX-License-Identifier: MIT.
 
-package require tconfig
+package require tconfig::encrypt
 
 test tconfigEncryptConfig-1.1 "Encrypt config for dev env" -setup {
     aws_seed
@@ -18,7 +18,7 @@ test tconfigEncryptConfig-1.1 "Encrypt config for dev env" -setup {
     catch { removeFile $conf_file }
     unset -nocomplain file
 } -match glob -result {\[db\]
-somekey = untoched
+somekey = untouched
 hostname = dev-hostname
 enc:password = *
 \[email\]
@@ -40,7 +40,7 @@ test tconfigEncryptConfig-1.2 "Encrypt config for prod env" -setup {
     catch { removeFile $conf_file }
     unset -nocomplain file
 } -match glob -result {\[db\]
-somekey = untoched
+somekey = untouched
 hostname = prod-hostname
 enc:password = *
 \[email\]

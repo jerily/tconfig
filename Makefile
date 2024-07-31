@@ -21,7 +21,7 @@ install:
 	mkdir -vp "$(INSTALL_DIR)"
 	cp -vf LICENSE pkgIndex.tcl "$(INSTALL_DIR)"
 	mkdir -vp "$(INSTALL_DIR)"/tcl
-	cp -vf tcl/tconfig.tcl "$(INSTALL_DIR)"/tcl
+	cp -vf tcl/encrypt.tcl tcl/decrypt.tcl tcl/common.tcl "$(INSTALL_DIR)"/tcl
 	mkdir -vp "$(INSTALL_BIN_DIR)"
 	cp -vf tcl/encrypt-config.tcl "$(INSTALL_BIN_DIR)"
 
