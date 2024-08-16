@@ -30,7 +30,7 @@ make install
       - *config_file* (required) - configuration file for processing
       - *aws_profile* (optional) - name of the AWS profile that will be used to access AWS services
       - *application* (optional) - optional application identifier
-    - for simplified use of this command, the `encrypt-config.tcl` script will be installed in the `/usr/local/bin` directory.
+    - for simplified use of this command, the `tconfig-encrypt.tcl` script will be installed in the `/usr/local/bin` directory.
 
 * **::tconfig::load_config** *ini_file* *?aws_profile?*
     - loads the specified encrypted configuration file and decrypts its values
@@ -83,10 +83,10 @@ $ aws kms create-key --output text --query "KeyMetadata.Arn"
 
 The result of this command is the ARN of the AWS KMS key that can be specified as parameter *aws_kms_key* to **::tconfig::load_config**.
 
-Now we have everything we need to generate an encrypted configuration file. The `encrypt-config.tcl` script can be used for this purpose. For example, this can be used to create an encrypted configuration file for `dev` environment:
+Now we have everything we need to generate an encrypted configuration file. The `tconfig-encrypt.tcl` script can be used for this purpose. For example, this can be used to create an encrypted configuration file for `dev` environment:
 
 ```shell
-$ tclsh /usr/local/bin/encrypt-config.tcl -environment dev -aws_kms_key <ARN for AWS KMS key> /path/to/config.ini
+$ tclsh /usr/local/bin/tconfig-encrypt.tcl -environment dev -aws_kms_key <ARN for AWS KMS key> /path/to/config.ini
 ```
 
 The generated encrypted file can be used in the application after it has been loaded and decrypted. For example:

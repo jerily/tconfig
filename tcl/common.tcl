@@ -62,7 +62,7 @@ proc ::tconfig::get_aws_ssm_client { aws_profile } {
 
 }
 
-proc ::tconfig::convert_ini2dict { ini_file } {
+proc ::tconfig::read_config { ini_file } {
 
     set result [dict create]
 
@@ -102,5 +102,20 @@ proc ::tconfig::convert_ini2dict { ini_file } {
     close $fd
 
     return $result
+
+}
+
+proc ::tconfig::write_config { config_dict ini_file } {
+
+    set fd [open $ini_file w]
+
+    dict for { section keys } $config_dict {
+        puts $fd "\[$section\]"
+        dict for { key val } $keys {
+            puts $fd "$key = $val"
+        }
+    }
+
+    close $fd
 
 }

@@ -14,21 +14,6 @@ namespace eval ::tconfig {
 
 }
 
-proc ::tconfig::convert_dict2ini { config_dict ini_file } {
-
-    set fd [open $ini_file w]
-
-    dict for { section keys } $config_dict {
-        puts $fd "\[$section\]"
-        dict for { key val } $keys {
-            puts $fd "$key = $val"
-        }
-    }
-
-    close $fd
-
-}
-
 proc ::tconfig::encrypt_dict { config_dict ssm_client tink_keyset option_dict } {
 
     set environment [dict get $option_dict "environment"]
@@ -89,7 +74,7 @@ proc ::tconfig::encrypt_config { option_dict } {
         return -code error "required option aws_kms_key is not specified"
     }
 
-    set config_dict [convert_ini2dict [dict get $option_dict "config_file"]]
+    set config_dict [::tconfig::read_config [dict get $option_dict "config_file"]]
 
     # Generate a new tink key
     set tink_keyset [::tink::aead::create_keyset "AES256_GCM"]
@@ -111,7 +96,7 @@ proc ::tconfig::encrypt_config { option_dict } {
     $ssm_client destroy
     ::tink::unregister_keyset $tink_keyset
 
-    ::tconfig::convert_dict2ini $config_dict [dict get $option_dict "config_file"]
+    ::tconfig::write_config $config_dict [dict get $option_dict "config_file"]
 
 }
 
