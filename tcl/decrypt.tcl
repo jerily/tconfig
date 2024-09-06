@@ -7,16 +7,7 @@ package require awskms
 
 source [file join [file dirname [info script]] common.tcl]
 
-namespace eval ::tconfig {
-
-    variable config [dict create]
-
-}
-
-proc ::tconfig::get_config { } {
-    variable config
-    return $config
-}
+namespace eval ::tconfig {}
 
 proc ::tconfig::decrypt_dict { config_dict tink_keyset } {
 
@@ -45,8 +36,6 @@ proc ::tconfig::decrypt_dict { config_dict tink_keyset } {
 }
 
 proc ::tconfig::load_config { ini_file { aws_profile {} } } {
-
-    variable config
 
     if { $aws_profile eq "" && [info exists ::env(AWS_PROFILE)] } {
         set aws_profile $::env(AWS_PROFILE)

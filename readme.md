@@ -5,7 +5,7 @@ This package provides secure and encrypted storage of configuration files.
 ## Prerequisites
 
 - [tink-tcl](https://github.com/jerily/tink-tcl) (version 20240704.0 and above)
-- [aws-sdk-tcl](https://github.com/jerily/aws-sdk-tcl) (version 1.0.9 and above)
+- [aws-sdk-tcl](https://github.com/jerily/aws-sdk-tcl) (version 1.0.10 and above)
 
 ## Installation
 
@@ -94,7 +94,7 @@ The generated encrypted file can be used in the application after it has been lo
 ```tcl
 package require tconfig
 
-::tconfig::load_config "/path/to/config.ini"
+set config_dict [::tconfig::load_config "/path/to/config.ini" "alias/my-kms-key"]
 
-puts "Loaded configuration values: [::tconfig::get_config]"
+puts "Loaded configuration values: $config_dict"
 ```
