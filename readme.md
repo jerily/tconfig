@@ -37,9 +37,6 @@ make install
     - *ini_file* - encrypted configuration file for processing
     - *aws_profile* - name of the AWS profile that will be used to access AWS services
 
-* **::tconfig::get_config**
-    - returns the values loaded by **::tconfig::load_config** procedure in Tcl dict format
-
 ## Example
 
 Prepare a configuration file in ini-format. For example:
@@ -94,7 +91,7 @@ The generated encrypted file can be used in the application after it has been lo
 ```tcl
 package require tconfig
 
-set config_dict [::tconfig::load_config "/path/to/config.ini" "alias/my-kms-key"]
+set config_dict [::tconfig::load_config "/path/to/config.ini" "my_aws_profile"]
 
 puts "Loaded configuration values: $config_dict"
 ```
