@@ -23,7 +23,7 @@ make install
       - if it does not exist in AWS SSM parameters, its value will be left as is
       - if it exists in AWS SSM parameters and its type is not `SecureString`, its value will be replaced by the value of the corresponding AWS SSM parameter
       - if it exists in AWS SSM parameters and its type is `SecureString`, then its value will be replaced by the encrypted value of the corresponding AWS SSM parameter
-    - saves the processed configuration file under its original name
+    - outputs to stdout the encrypted configuration file
     - *option_dict* is a dictionary with the following keys:
       - *environment* (required) - name of the environment for which the encrypted configuration file is prepared (for example: `dev`, `prod`, `staging`)
       - *aws_kms_key* (required) - AWS KMS key identifier that will be used to encrypt the encryption key
