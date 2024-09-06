@@ -89,7 +89,7 @@ $ tclsh /usr/local/bin/tconfig-encrypt.tcl -environment dev -aws_kms_key <ARN fo
 The generated encrypted file can be used in the application after it has been loaded and decrypted. For example:
 
 ```tcl
-package require tconfig
+package require tconfig::decrypt
 
 set config_dict [::tconfig::load_config "/path/to/config.ini" "my_aws_profile"]
 
