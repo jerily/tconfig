@@ -96,7 +96,13 @@ proc ::tconfig::encrypt_config { option_dict } {
     $ssm_client destroy
     ::tink::unregister_keyset $tink_keyset
 
-    ::tconfig::write_config $config_dict [dict get $option_dict "config_file"]
+    # ::tconfig::write_config $config_dict [dict get $option_dict "config_file"]
+    dict for { section keys } $config_dict {
+        puts "\[$section\]"
+        dict for { key val } $keys {
+            puts "$key = $val"
+        }
+    }
 
 }
 
