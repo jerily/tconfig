@@ -1,6 +1,10 @@
+# 
 # Copyright Jerily LTD. All Rights Reserved.
-# SPDX-FileCopyrightText: 2024 Neofytos Dimitriou (neo@jerily.cy)
+# SPDX-FileCopyrightText: 2026 Neofytos Dimitriou (neo@jerily.cy)
 # SPDX-License-Identifier: MIT.
+# 
 
-package ifneeded tconfig::encrypt 1.0.0 [list source [file join $dir tcl encrypt.tcl]]
-package ifneeded tconfig::decrypt 1.0.0 [list source [file join $dir tcl decrypt.tcl]]
+if {![package vsatisfies [package provide Tcl] 9.1-10]} {return}
+
+package ifneeded tconfig::encrypt 1.0.1 [list source [file join $dir tcl encrypt.tcl]]
+package ifneeded tconfig::decrypt 1.0.1 [list source [file join $dir tcl decrypt.tcl]]

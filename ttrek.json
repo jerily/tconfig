@@ -1,0 +1,50 @@
+{
+  "name": "tconfig",
+  "license": "MIT",
+  "description": "Encrypted configuration storage with AWS KMS and SSM integration for Tcl.",
+  "languages": [
+    "TCL"
+  ],
+  "tags": [
+    "tcl",
+    "configuration",
+    "encryption",
+    "aws",
+    "kms",
+    "ssm"
+  ],
+  "url": "https://github.com/jerily/tconfig",
+  "version": "1.0.1",
+  "scripts": {},
+  "dependencies": {
+    "tink-tcl": ">=20240704.0.0",
+    "pure-tcl-aws-kms": "^0.1.0",
+    "pure-tcl-aws-ssm": "^0.1.0",
+    "tcl": ">=9.1.0,<10.0.0"
+  },
+  "devDependencies": {},
+  "build": {
+    "default": [
+      {
+        "cmd": "download",
+        "url": "https://github.com/jerily/tconfig/archive/refs/tags/v1.0.1.tar.gz"
+      },
+      {
+        "cmd": "unpack"
+      },
+      {
+        "cmd": "cd",
+        "dirname": "$SOURCE_DIR"
+      },
+      {
+        "cmd": "make_install",
+        "options": [
+          {
+            "name": "PREFIX",
+            "value": "$INSTALL_DIR"
+          }
+        ]
+      }
+    ]
+  }
+}

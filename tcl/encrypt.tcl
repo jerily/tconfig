@@ -1,10 +1,12 @@
+# 
 # Copyright Jerily LTD. All Rights Reserved.
-# SPDX-FileCopyrightText: 2024 Neofytos Dimitriou (neo@jerily.cy)
+# SPDX-FileCopyrightText: 2026 Neofytos Dimitriou (neo@jerily.cy)
 # SPDX-License-Identifier: MIT.
+# 
 
 package require tink
-package require awskms
-package require awsssm
+package require pure-tcl-aws-kms 0.1.0
+package require pure-tcl-aws-ssm 0.1.0
 
 source [file join [file dirname [info script]] common.tcl]
 
@@ -14,6 +16,7 @@ namespace eval ::tconfig {
 
 }
 
+# Resolve SSM values and encrypt SecureString parameters with Tink.
 proc ::tconfig::encrypt_dict { config_dict ssm_client tink_keyset option_dict } {
 
     set environment [dict get $option_dict "environment"]
@@ -56,6 +59,7 @@ proc ::tconfig::encrypt_dict { config_dict ssm_client tink_keyset option_dict } 
 
 }
 
+# Encrypt configuration values and wrap their keyset with KMS.
 proc ::tconfig::encrypt_config { option_dict } {
 
     if { ![dict exists $option_dict "aws_profile"] } {
@@ -106,4 +110,4 @@ proc ::tconfig::encrypt_config { option_dict } {
 
 }
 
-package provide tconfig::encrypt 1.0.0
+package provide tconfig::encrypt 1.0.1

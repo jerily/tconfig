@@ -1,14 +1,17 @@
+# 
 # Copyright Jerily LTD. All Rights Reserved.
-# SPDX-FileCopyrightText: 2024 Neofytos Dimitriou (neo@jerily.cy)
+# SPDX-FileCopyrightText: 2026 Neofytos Dimitriou (neo@jerily.cy)
 # SPDX-License-Identifier: MIT.
+# 
 
 package require tink
-package require awskms
+package require pure-tcl-aws-kms 0.1.0
 
 source [file join [file dirname [info script]] common.tcl]
 
 namespace eval ::tconfig {}
 
+# Decrypt marked configuration values with the registered Tink keyset.
 proc ::tconfig::decrypt_dict { config_dict tink_keyset } {
 
     dict for { section keys } $config_dict {
@@ -35,6 +38,7 @@ proc ::tconfig::decrypt_dict { config_dict tink_keyset } {
 
 }
 
+# Decrypt the stored keyset with KMS and load the configuration.
 proc ::tconfig::load_config { ini_file { aws_profile {} } } {
 
     if { $aws_profile eq "" && [info exists ::env(AWS_PROFILE)] } {
@@ -63,4 +67,4 @@ proc ::tconfig::load_config { ini_file { aws_profile {} } } {
 
 }
 
-package provide tconfig::decrypt 1.0.0
+package provide tconfig::decrypt 1.0.1
