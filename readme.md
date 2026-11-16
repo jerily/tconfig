@@ -5,7 +5,9 @@ This package provides secure and encrypted storage of configuration files.
 ## Prerequisites
 
 - [tink-tcl](https://github.com/jerily/tink-tcl) (version 20240704.0 and above)
-- [aws-sdk-tcl](https://github.com/jerily/aws-sdk-tcl) (version 1.0.10 and above)
+- Tcl 9.1
+- [pure-tcl-aws-kms](https://github.com/jerily/pure-tcl-aws-kms) 0.1.0+
+- [pure-tcl-aws-ssm](https://github.com/jerily/pure-tcl-aws-ssm) 0.1.0+
 
 ## Installation
 
@@ -95,3 +97,15 @@ set config_dict [::tconfig::load_config "/path/to/config.ini" "my_aws_profile"]
 
 puts "Loaded configuration values: $config_dict"
 ```
+
+## Offline AWS compatibility checks
+
+With Tcl 9.1 and the dependencies installed, run:
+
+```sh
+tclsh9.1 tests/pure-aws.tcl
+```
+
+These checks use real KMS/SSM clients with stubbed transport and real Tink
+encryption. They cover profile selection and the existing encrypted file format
+without AWS credentials or LocalStack.
