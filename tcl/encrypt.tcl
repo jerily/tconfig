@@ -5,8 +5,8 @@
 # 
 
 package require tink
-package require pure-tcl-aws-kms 0.1.0
-package require pure-tcl-aws-ssm 0.1.0
+package require pure-tcl-aws-kms 1.0.0
+package require pure-tcl-aws-ssm 1.0.0
 
 source [file join [file dirname [info script]] common.tcl]
 
@@ -110,4 +110,4 @@ proc ::tconfig::encrypt_config { option_dict } {
 
 }
 
-package provide tconfig::encrypt 1.0.1
+package provide tconfig::encrypt 1.0.2

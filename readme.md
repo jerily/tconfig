@@ -6,8 +6,8 @@ This package provides secure and encrypted storage of configuration files.
 
 - [tink-tcl](https://github.com/jerily/tink-tcl) (version 20240704.0 and above)
 - Tcl 9.1
-- [pure-tcl-aws-kms](https://github.com/jerily/pure-tcl-aws-kms) 0.1.0+
-- [pure-tcl-aws-ssm](https://github.com/jerily/pure-tcl-aws-ssm) 0.1.0+
+- [pure-tcl-aws-kms](https://github.com/jerily/pure-tcl-aws-kms) 1.0.0+
+- [pure-tcl-aws-ssm](https://github.com/jerily/pure-tcl-aws-ssm) 1.0.0+
 
 ## Installation
 
