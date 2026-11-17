@@ -5,7 +5,7 @@
 # 
 
 package require tink
-package require pure-tcl-aws-kms 0.1.0
+package require pure-tcl-aws-kms 1.0.0
 
 source [file join [file dirname [info script]] common.tcl]
 
@@ -67,4 +67,4 @@ proc ::tconfig::load_config { ini_file { aws_profile {} } } {
 
 }
 
-package provide tconfig::decrypt 1.0.1
+package provide tconfig::decrypt 1.0.2

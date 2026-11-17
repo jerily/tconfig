@@ -8,8 +8,8 @@ package require Tcl 9.1
 package require tcltest 2
 namespace import ::tcltest::*
 lappend auto_path [file dirname [file dirname [file normalize [info script]]]]
-package require tconfig::encrypt 1.0.1
-package require tconfig::decrypt 1.0.1
+package require tconfig::encrypt 1.0.2
+package require tconfig::decrypt 1.0.2
 
 test pure-ssm {real SSM client preserves profile settings and encrypts parameter values} -setup {
     set savedProfile [array get ::env AWS_PROFILE]
